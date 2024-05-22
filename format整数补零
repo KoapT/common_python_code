@@ -1,0 +1,9 @@
+x= 12
+
+print(f'x is {x:0>4d}')
+print(f'x is {x:9>6d}')
+
+
+output: 
+x is 0012
+x is 999912
