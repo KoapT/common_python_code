@@ -1,0 +1,33 @@
+vmware-hgfsclient
+
+sudo mount -t fuse.vmhgfs-fuse .host:/share /home/tk/share -o allow_other
+sshfs tangkang@10.18.51.6:/newdata/public/datasets/project_datasets/uisee_apa/data_collect ~/Share
+
+docker run -it --gpus all --shm-size 128g  --name detzero  -p 9999:22 -p 16006:6006  -v /data/public/engineers/tangkang:/home/tk -v /data/public/datasets/public_datasets/:/datasets e9e57434daec
+
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+newgrp docker
+docker images 
+原文链接：https://blog.csdn.net/Jackey1314007/article/details/131566118
+
+
+chmod 600 /run/sshd.pid
+chmod 600 /etc/ssh/ssh_host_rsa_key
+chmod 600 /etc/ssh/ssh_host_ecdsa_key
+chmod 600 /etc/ssh/ssh_host_ed25519_key
+chmod 600 /run/sshd
+
+
+python -m torch.distributed.run --nproc_per_node 2 train.py --launcher pytorch
+
+export CUDA_VISIBLE_DEVICES=0,2
+
+
+sudo fuser -v /dev/nvidia*
+sudo pkill python -u tangkang
+
+
+# axera
+pulsar build --input model/resnet18.onnx --output model/resnet18.joint --config config/config_resnet18.prototxt --output_config config/output_config.prototxt
+pulsar run model/resnet18.onnx model/resnet18.joint --input images/img-319.jpg --config config/output_config.prototxt --output_gt gt/
